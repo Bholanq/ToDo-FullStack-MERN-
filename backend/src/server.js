@@ -8,9 +8,17 @@ const app =express();
 
 connectDB();
 
-app.use("/api/notes", notesRoutes);
 
-app.listen(5001,()=>{
-    console.log("Server started on PORT: 5001");
+//middlewares
+app.use(express.json()); //this middleware allows us to parse the model bodies i.e req.body()
+
+app.use((req,res,next) =>{
+    console.log(`Request method is ${req.method} and request url is ${req.url}`);
+    next();
+});
+app.use("/api/notes", notesRoutes);
+const PORT = process.env.PORT || 5001;
+app.listen(PORT,()=>{
+    console.log("Server started on PORT:", PORT);
 });
 
